@@ -9,10 +9,17 @@ Write-Host "==========================================================" -Foregro
 Write-Host " Running Automated Tests for Hardened Staging Script" -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 
-$scriptPath = "C:\CP2077-Android-Engineering\scripts\Stage-GameData.ps1"
-$testRoot = "C:\CP2077-Android-Engineering\build\staging_tests"
+$repoRoot = Split-Path -Parent $PSScriptRoot
+if (-not $repoRoot -or -not (Test-Path $repoRoot)) {
+    $repoRoot = (Get-Location).Path
+}
+$scriptPath = Join-Path $repoRoot "scripts\Stage-GameData.ps1"
+$testRoot = Join-Path $repoRoot "build\staging_tests"
 if (Test-Path $testRoot) { Remove-Item -Path $testRoot -Recurse -Force -ErrorAction SilentlyContinue }
 New-Item -ItemType Directory -Force -Path $testRoot | Out-Null
+
+$psExe = (Get-Process -Id $PID).Path
+if (-not $psExe -or -not (Test-Path $psExe)) { $psExe = "powershell.exe" }
 
 $syntheticSource = Join-Path $testRoot "synthetic_game"
 $syntheticDist = Join-Path $testRoot "synthetic_dist"
@@ -49,7 +56,7 @@ function Assert-Test([string]$TestName, [bool]$Condition, [string]$Details = "")
 # Test 1: Source-Directory Self-Overwrite Rejection
 # ----------------------------------------------------------------------------------
 $destSame = $syntheticSource
-$out1 = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DestinationPath $destSame -ReportPath $testReport 2>&1
+$out1 = & $psExe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DestinationPath $destSame -ReportPath $testReport 2>&1
 $rep1 = if (Test-Path $testReport) { Get-Content $testReport | ConvertFrom-Json } else { $null }
 Assert-Test "Source Protection: Rejects Destination Identical to Source" `
     ($rep1.status -eq "FAILED_SOURCE_OVERWRITE_PREVENTED") `
@@ -59,7 +66,7 @@ Assert-Test "Source Protection: Rejects Destination Identical to Source" `
 # Test 2: Source-Directory Parent Overlap Rejection
 # ----------------------------------------------------------------------------------
 $destParent = Split-Path -Parent $syntheticSource
-$out2 = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DestinationPath $destParent -ReportPath $testReport 2>&1
+$out2 = & $psExe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DestinationPath $destParent -ReportPath $testReport 2>&1
 $rep2 = if (Test-Path $testReport) { Get-Content $testReport | ConvertFrom-Json } else { $null }
 Assert-Test "Source Protection: Rejects Destination Overlapping Source Hierarchy" `
     ($rep2.status -eq "FAILED_SOURCE_OVERLAP_PREVENTED") `
@@ -69,7 +76,7 @@ Assert-Test "Source Protection: Rejects Destination Overlapping Source Hierarchy
 # Test 3: Missing / Invalid Destination Drive
 # ----------------------------------------------------------------------------------
 $destInvalid = "Z:\NonExistentDriveRoot999\Staging"
-$out3 = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DestinationPath $destInvalid -ReportPath $testReport 2>&1
+$out3 = & $psExe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DestinationPath $destInvalid -ReportPath $testReport 2>&1
 $rep3 = if (Test-Path $testReport) { Get-Content $testReport | ConvertFrom-Json } else { $null }
 Assert-Test "Destination Validation: Rejects Non-Existent Drive Root" `
     ($rep3.status -eq "FAILED_DESTINATION_ROOT_NOT_FOUND") `
@@ -79,7 +86,7 @@ Assert-Test "Destination Validation: Rejects Non-Existent Drive Root" `
 # Test 4: Dry-Run Mode (Zero Writes)
 # ----------------------------------------------------------------------------------
 $destDry = Join-Path $testRoot "dry_run_dest"
-$out4 = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destDry -ReportPath $testReport -DryRun 2>&1
+$out4 = & $psExe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destDry -ReportPath $testReport -DryRun 2>&1
 $rep4 = if (Test-Path $testReport) { Get-Content $testReport | ConvertFrom-Json } else { $null }
 $dryDirCreated = Test-Path (Join-Path $destDry "Cyberpunk2077")
 Assert-Test "Dry-Run Mode: Calculates Plan Without Writing to Destination" `
@@ -99,7 +106,7 @@ Assert-Test "Security Gate: Flagged Anomaly Excluded and Classified as SEALED" `
 # ----------------------------------------------------------------------------------
 $destSpace = Join-Path $testRoot "space_dest"
 # Request 50 TB margin to exceed any available disk
-$out6 = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destSpace -ReportPath $testReport -SafetyMarginBytes 50000000000000 2>&1
+$out6 = & $psExe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destSpace -ReportPath $testReport -SafetyMarginBytes 50000000000000 2>&1
 $rep6 = if (Test-Path $testReport) { Get-Content $testReport | ConvertFrom-Json } else { $null }
 Assert-Test "Storage Math: Fails Safely When Destination Space < Required Payload + Margin" `
     ($rep6.status -eq "FAILED_INSUFFICIENT_SPACE") `
@@ -113,7 +120,7 @@ $existingSub = Join-Path $destOverwrite "Cyberpunk2077\bin\x64"
 New-Item -ItemType Directory -Force -Path $existingSub | Out-Null
 Set-Content -Path (Join-Path $existingSub "pre_existing_file.txt") -Value "ALREADY_EXISTS"
 
-$out7 = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destOverwrite -ReportPath $testReport -SafetyMarginBytes 1000 2>&1
+$out7 = & $psExe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destOverwrite -ReportPath $testReport -SafetyMarginBytes 1000 2>&1
 $rep7 = if (Test-Path $testReport) { Get-Content $testReport | ConvertFrom-Json } else { $null }
 Assert-Test "Overwrite Protection: Refuses to Overwrite Existing Content by Default" `
     ($rep7.status -eq "FAILED_OVERWRITE_REFUSED") `
@@ -122,7 +129,7 @@ Assert-Test "Overwrite Protection: Refuses to Overwrite Existing Content by Defa
 # ----------------------------------------------------------------------------------
 # Test 8: Explicit Overwrite Authorization (-AllowOverwrite)
 # ----------------------------------------------------------------------------------
-$out8 = & powershell.exe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destOverwrite -ReportPath $testReport -SafetyMarginBytes 1000 -AllowOverwrite 2>&1
+$out8 = & $psExe -ExecutionPolicy Bypass -File $scriptPath -GameSource $syntheticSource -DistSource $syntheticDist -DestinationPath $destOverwrite -ReportPath $testReport -SafetyMarginBytes 1000 -AllowOverwrite 2>&1
 $rep8 = if (Test-Path $testReport) { Get-Content $testReport | ConvertFrom-Json } else { $null }
 # Overwrite permitted to proceed through copy phase (synthetic exe fails real CP2077 hash check, which is expected!)
 Assert-Test "Overwrite Authorization: Proceeds Past Overwrite Gate with -AllowOverwrite" `
