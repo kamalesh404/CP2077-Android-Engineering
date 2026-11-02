@@ -1,0 +1,23 @@
+name: Feature Request
+description: Suggest an enhancement or compatibility improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Goal
+      description: What limitation or compatibility hurdle are you trying to solve?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the technical approach, driver setting, or configuration.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Any other approaches or compatibility tools considered.

@@ -1,0 +1,34 @@
+name: Bug Report
+description: Report an issue with project scripts, configs, or tools
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for filing a bug report! Please remember: never attach proprietary game files or credentials.
+  - type: input
+    id: environment
+    attributes:
+      label: Operating System & Hardware
+      description: e.g., Windows 11, Qualcomm Snapdragon 7 Gen 1 (Adreno 644)
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the issue is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Exact commands or actions taken.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Terminal Output or Logs
+      description: Paste any error messages or sanitized test output.
+      render: shell
