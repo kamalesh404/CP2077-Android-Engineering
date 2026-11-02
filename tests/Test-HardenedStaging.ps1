@@ -163,6 +163,9 @@ Write-Host "==========================================================" -Foregro
 # Clean up synthetic test folder safely
 Remove-Item -Path $testRoot -Recurse -Force -ErrorAction SilentlyContinue
 
-if ($passedTests -ne $totalTests) {
+if ($passedTests -eq $totalTests -and $totalTests -gt 0) {
+    $global:LASTEXITCODE = 0
+    exit 0
+} else {
     exit 1
 }
