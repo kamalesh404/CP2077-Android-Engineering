@@ -1,0 +1,25 @@
+﻿{
+    "timestamp":  "2026-10-27T21:43:54+05:30",
+    "game_root":  "C:\\Games\\steam\\steamapps\\common\\Cyberpunk 2077",
+    "executable_present":  true,
+    "executable_size_bytes":  59945608,
+    "executable_sha256":  "A7DE82945C03E041FC7339FCF9066224D98DB2F5D80FEA50F7947BB350A60991",
+    "version_detected":  "2.31 (build 5294808)",
+    "directories_verified":  {
+                                 "r6":  true,
+                                 "bin":  true,
+                                 "archive":  true,
+                                 "engine":  true
+                             },
+    "flagged_anomaly_sealed":  true,
+    "total_files":  159,
+    "total_size_bytes":  66366228927,
+    "storage_budget":  {
+                           "game_size_bytes":  66366228927,
+                           "phone_available_free_bytes":  19327352832,
+                           "phone_available_free_gib":  18,
+                           "storage_deficit_bytes":  47038876095,
+                           "storage_deficit_gib":  43.81,
+                           "fit_status":  "DEFICIT"
+                       }
+}

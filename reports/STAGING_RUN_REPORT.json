@@ -1,0 +1,34 @@
+﻿{
+    "timestamp":  "2026-10-27T22:24:38+05:30",
+    "dry_run":  true,
+    "allow_overwrite":  false,
+    "source_path":  "C:\\Games\\steam\\steamapps\\common\\Cyberpunk 2077",
+    "destination_path":  "C:\\CP2077-Android-Engineering\\build\\dry_run_test",
+    "status":  "DRY_RUN_PASSED",
+    "planned_files_count":  171,
+    "planned_bytes":  65704372884,
+    "safety_margin_bytes":  5368709120,
+    "required_bytes_total":  71073082004,
+    "destination_free_bytes":  84625338368,
+    "omitted_files":  [
+                          {
+                              "Source":  "C:\\Games\\steam\\steamapps\\common\\Cyberpunk 2077\\REDlauncher-4.2.0.4.msi",
+                              "RelativePath":  "REDlauncher-4.2.0.4.msi",
+                              "SizeBytes":  687386624,
+                              "Reason":  "OPTIONAL_REDIST_INSTALLER"
+                          },
+                          {
+                              "Source":  "C:\\Games\\steam\\steamapps\\common\\Cyberpunk 2077\\bin\\x64\\cyberpunk2077_addresses.json",
+                              "RelativePath":  "bin\\x64\\cyberpunk2077_addresses.json",
+                              "SizeBytes":  132079509,
+                              "Reason":  "SEALED_UNTRUSTED_ANOMALY"
+                          }
+                      ],
+    "transferred_files":  [
+
+                          ],
+    "failed_files":  [
+
+                     ],
+    "error_message":  ""
+}

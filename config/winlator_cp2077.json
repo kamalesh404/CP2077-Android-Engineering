@@ -1,0 +1,51 @@
+{
+  "container_name": "Cyberpunk2077_SM7450",
+  "screen_size": "1280x720",
+  "graphics_driver": "turnip-26.2.0",
+  "dxwrapper": "vkd3d-2.14.1",
+  "dxwrapper_config": {
+    "vkd3d_version": "2.14.1",
+    "dx12_feature_level": "12_0",
+    "raytracing": "disabled",
+    "descriptor_heap_size": 65536
+  },
+  "audio_driver": "alsa",
+  "box64_version": "box64-0.4.4",
+  "box64_preset": "stability",
+  "box64_env": {
+    "BOX64_DYNAREC_SAFEFLAGS": "1",
+    "BOX64_DYNAREC_FASTNAN": "1",
+    "BOX64_DYNAREC_X87DOUBLE": "0",
+    "BOX64_MAXCPU": "4",
+    "BOX64_STRONG_MEM": "1"
+  },
+  "wine_version": "wine-9.2-vanilla-x86_64",
+  "video_memory_mb": 4096,
+  "cpu_affinity": "0-7",
+  "env_vars": {
+    "VKD3D_CONFIG": "no_upload_hvv,force_static_cbv",
+    "CYBERPUNK_OFFLINE_MODE": "1",
+    "WINEDEBUG": "-all"
+  },
+  "drives": [
+    {
+      "letter": "C",
+      "path": "/storage/emulated/0/Winlator/drives/c"
+    },
+    {
+      "letter": "D",
+      "path": "/storage/emulated/0/Cyberpunk2077",
+      "external_otg_alternative": "/storage/XXXX-XXXX/Cyberpunk2077"
+    }
+  ],
+  "executable": "D:\\bin\\x64\\Cyberpunk2077.exe",
+  "launch_arguments": "-qualityLevel=Low -skipStartScreen -launcher-skip",
+  "hardware_notes": {
+    "target_device": "HONOR 90 (SM7450 / Snapdragon 7 Gen 1 Accelerated Edition)",
+    "gpu": "Adreno 644",
+    "ram": "8 GB / 12 GB",
+    "storage_internal_free": "~18 GiB",
+    "storage_required": "~66.4 GB base game (~75 GB total with container & shader cache)",
+    "recommended_storage_medium": "External USB-C OTG SSD (formatted exFAT) mounted as D:"
+  }
+}

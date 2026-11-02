@@ -1,0 +1,66 @@
+# scratch artifacts, dumps, or anything not meant to be tracked
+# Only reports/ and README/.gitignore should ever be tracked.
+
+# Scratch and dump folders
+scratch/
+dumps/
+tmp/
+out/
+build/
+bin/
+obj/
+dist/
+
+# Android / Gradle build caches & properties
+.gradle/
+**/build/
+**/.gradle/
+**/local.properties
+
+# Local research artifacts and caches
+.cache/
+.uv_cache/
+venv/
+.venv/
+node_modules/
+
+# Archive files & SDK downloads
+*.zip
+*.tar
+*.tzst
+*.gz
+*.jar
+
+# Local tools installations
+tools/android-sdk/
+tools/platform-tools/
+tools/*.zip
+
+# Never track game binaries, assets, or copied install fragments
+*.exe
+*.dll
+*.wasm
+*.archive
+*.audio_archive
+*.vdf.bin
+*.uexp
+*.pak
+*.oristar
+*.oribin
+*.orivel
+*.pdb
+*.so
+*.dylib
+*.apk
+*.ipa
+
+# Never track Steam state or DRM manifests
+appmanifest_*.acf
+*.bpk
+*.prevck
+
+# Logs / local-only files
+*.log
+*.crash
+*.dmp
+*.bak

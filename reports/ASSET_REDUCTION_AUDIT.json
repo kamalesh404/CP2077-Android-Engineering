@@ -1,0 +1,31 @@
+﻿{
+    "total_archives_bytes":  64907190288,
+    "total_archives_gib":  60.45,
+    "categories":  {
+                       "basegame_world_bytes":  23889571840,
+                       "basegame_engine_bytes":  12963926032,
+                       "basegame_video_bytes":  13895094272,
+                       "audio_bytes":  9026301952,
+                       "voice_en_bytes":  4980334592,
+                       "text_languages_bytes":  151961600
+                   },
+    "scenarios":  {
+                      "scenario_1_strip_foreign_text":  {
+                                                            "description":  "Exclude non-English text language archives (17 languages)",
+                                                            "potential_savings_bytes":  144363520,
+                                                            "potential_savings_mib":  137.68,
+                                                            "remaining_size_gib":  60.32,
+                                                            "viable_for_phone_storage":  false,
+                                                            "note":  "Saves ~137 MB only. Completely insufficient for closing the 47+ GB gap."
+                                                        },
+                      "scenario_2_strip_all_video":  {
+                                                         "description":  "Hypothetical removal of video archive (basegame_5_video.archive)",
+                                                         "potential_savings_bytes":  13895094272,
+                                                         "potential_savings_gib":  12.94,
+                                                         "remaining_size_gib":  47.51,
+                                                         "viable_for_phone_storage":  false,
+                                                         "note":  "Saves ~12.94 GiB, but breaks in-game cinematics, ads, and TV screens. Still leaves \u003e47 GiB, which exceeds 18 GiB phone limit."
+                                                     }
+                  },
+    "conclusion":  "No non-destructive or gameplay-preserving asset reduction can fit Cyberpunk 2077 into 18 GiB of available phone storage."
+}
